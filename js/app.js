@@ -80,7 +80,7 @@ function openCard(card){
 
 }
 
-
+//Decreasing Starts Rating after number of moves.
 function starRating (){
 	if (movesCounter === 10 || movesCounter === 16){
 		const starsList = document.querySelectorAll('.stars li');
