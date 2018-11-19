@@ -10,6 +10,13 @@
 
 
 let deckArray = ["fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o", "fa-anchor", "fa-anchor", "fa-bolt","fa-bolt", "fa-cube","fa-cube", "fa-leaf", "fa-leaf", "fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb"];
+
+document.querySelector('.restart').addEventListener('click', function(){
+ 	stopTimer();
+ 	init();
+ 	start();
+});
+
 start();
 var cardBuffer = null;
 var movesCounter=0;
@@ -26,6 +33,20 @@ function init(){
 	matchCount=0;
 	setIntervalID;
 	stars = 3;
+
+	const starsList = document.querySelectorAll('.stars li');
+
+	for (let h = 0; h < starsList.length; h++){
+			starsList[h].style.display = '';
+	}
+
+	document.querySelector('#timer').innerHTML='0';
+
+	const moves =document.querySelector('.moves');
+
+	moves.innerHTML='0';
+
+	document.querySelector('.deck').innerHTML='';
 }
 
 
@@ -99,9 +120,9 @@ function openCard(card){
 
 //Decreasing Starts Rating after number of moves.
 function starRating (){
-	if (movesCounter === 10 || movesCounter === 16){
+	if (movesCounter == 24 || movesCounter == 30){
 		const starsList = document.querySelectorAll('.stars li');
-		for (let h = 1; h <= starsList.length; h++){
+		for (let h = 0; h < starsList.length; h++){
 			if(starsList[h].style.display !== 'none'){
 				starsList[h].style.display = 'none';
 				stars--;
@@ -136,7 +157,7 @@ function endGame(){
 		alert(msgStr);
 	}, 500);
 }
- 
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
