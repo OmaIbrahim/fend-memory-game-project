@@ -10,18 +10,27 @@
 
 
 let deckArray = ["fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o", "fa-anchor", "fa-anchor", "fa-bolt","fa-bolt", "fa-cube","fa-cube", "fa-leaf", "fa-leaf", "fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb"];
-shuffle(deckArray);
 start();
 var cardBuffer = null;
 var movesCounter=0;
 var timer=0;
 var matchCount=0;
 var setIntervalID;
+var stars = 3;
 
-
+function init(){
+	shuffle (deckArray);
+	cardBuffer = null;
+	movesCounter=0;
+	timer=0;
+	matchCount=0;
+	setIntervalID;
+	stars = 3;
+}
 
 
 function start(){
+	init();
 	movesCounter=0;
 	for (let n = 0; n < deckArray.length; n++){
 	const deck=document.querySelector('.deck');
@@ -44,13 +53,13 @@ function start(){
 		}
 		if (movesCounter==1)
 			timeCouner();
-		endGame();
 
+		if (matchCount==8){
+			endGame();
+		}
 	});
 
 	}
-		
-	
 }
 
 function matchCards(card1, card2){
@@ -86,8 +95,6 @@ function openCard(card){
 	const moves =document.querySelector('.moves');
 	moves.innerHTML=movesCounter;
 	return true;
-
-
 }
 
 //Decreasing Starts Rating after number of moves.
@@ -97,13 +104,11 @@ function starRating (){
 		for (let h = 1; h <= starsList.length; h++){
 			if(starsList[h].style.display !== 'none'){
 				starsList[h].style.display = 'none';
+				stars--;
 				break;
 			}
 		}
-
 	}
-	
-
 }
 
 //Time Function.
@@ -120,13 +125,16 @@ setIntervalID=setInterval(function(){
 
 
 function stopTimer(){
-	if (matchCount==8)
 	window.clearInterval(setIntervalID);
 }
 
 function endGame(){
-
 	stopTimer();
+	setTimeout(function(){
+		var msgStr = 'End of Game. You completed in ' + movesCounter + ' Moves' + '\n and in ' + timer 
+		+ ' seconds \n with ' + stars + 'rating';
+		alert(msgStr);
+	}, 500);
 }
  
 /*
