@@ -9,17 +9,21 @@
 //deck.appendChild(li);
 
 
-var deckArray = ["fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o", "fa-anchor", "fa-anchor", "fa-bolt","fa-bolt", "fa-cube","fa-cube", "fa-leaf", "fa-leaf", "fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb"];
+let deckArray = ["fa-diamond", "fa-diamond", "fa-paper-plane-o", "fa-paper-plane-o", "fa-anchor", "fa-anchor", "fa-bolt","fa-bolt", "fa-cube","fa-cube", "fa-leaf", "fa-leaf", "fa-bicycle", "fa-bicycle", "fa-bomb", "fa-bomb"];
 shuffle(deckArray);
 start();
 var cardBuffer = null;
 var movesCounter=0;
+var timer=0;
+var matchCount=0;
+var setIntervalID;
+
 
 
 
 function start(){
 	movesCounter=0;
-	for (var n = 0; n < deckArray.length; n++){
+	for (let n = 0; n < deckArray.length; n++){
 	const deck=document.querySelector('.deck');
 	const li=document.createElement('li');
 	li.setAttribute('class', 'card');
@@ -38,6 +42,10 @@ function start(){
 				matchCards(cardBuffer, li);
 			}
 		}
+		if (movesCounter==1)
+			timeCouner();
+		endGame();
+
 	});
 
 	}
@@ -53,6 +61,8 @@ function matchCards(card1, card2){
 		cardBuffer=null;
 
 		card2.setAttribute('class','card open show');
+		matchCount++;
+
 	}
 	else{
 		//alert('not match');
@@ -84,7 +94,7 @@ function openCard(card){
 function starRating (){
 	if (movesCounter === 10 || movesCounter === 16){
 		const starsList = document.querySelectorAll('.stars li');
-		for (var h = 1; h <= starsList.length; h++){
+		for (let h = 1; h <= starsList.length; h++){
 			if(starsList[h].style.display !== 'none'){
 				starsList[h].style.display = 'none';
 				break;
@@ -96,6 +106,29 @@ function starRating (){
 
 }
 
+//Time Function.
+
+function timeCouner(){
+setIntervalID=setInterval(function(){
+	timer+=1;
+	document.querySelector('#timer').innerHTML=timer;
+}, 1000);
+
+	
+
+}
+
+
+function stopTimer(){
+	if (matchCount==8)
+	window.clearInterval(setIntervalID);
+}
+
+function endGame(){
+
+	stopTimer();
+}
+ 
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
